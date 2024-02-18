@@ -10,8 +10,13 @@ export class TodoService {
   todoChanged = new Subject<Todo[]>();
 
   constructor() {}
+
   public get todos() {
     return this._todos.slice();
+  }
+
+  getTodo(index: number): Todo {
+    return this.todos[index];
   }
 
   addTodo(name: string): void {

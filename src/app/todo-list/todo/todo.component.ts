@@ -6,6 +6,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { Todo } from 'src/app/shared/interface/todo.interface';
 
 @Component({
@@ -20,6 +21,8 @@ export class TodoComponent implements OnChanges {
   @Output() changeStatus = new EventEmitter<number>();
   openModal = false;
 
+  constructor(private router: Router) {}
+
   ngOnChanges(changes: SimpleChanges): void {}
   changeTodoStatus() {
     this.changeStatus.emit(this.i);
@@ -29,5 +32,8 @@ export class TodoComponent implements OnChanges {
   }
   deleteTodo() {
     this.delete.emit();
+  }
+  navigateToDetails() {
+    this.router.navigate(['/todo', this.i]);
   }
 }
