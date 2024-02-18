@@ -1,10 +1,35 @@
-<p class="at-4">Dodaj nove zadanie</p>
-<input type="text" #name class="form-control" name="todo" />
-
-<button
-  type="button"
-  class="btn btn-primary mt-3"
-  (click)="addNewTodo(name.value)"
->
-  Dodaj zadanie
-</button>
+<form #form="ngForm" (ngSubmit)="addNewTodo()">
+  <p class="at-4">Dodaj nove zadanie</p>
+  <input
+    type="text"
+    required
+    minlength="4"
+    maxlength="50"
+    appFirstLetter
+    #todo="ngModel"
+    [(ngModel)]="todoName"
+    class="form-control"
+    name="todo"
+  />
+  <ng-container *ngIf="todo.invalid && (todo.touched || todo.dirty)">
+    <app-alert
+      *ngIf="todo.errors?.['required']"
+      [errorMessage]="'Nie moze byc pusta'"
+    ></app-alert>
+    <app-alert
+      *ngIf="todo.errors?.['minlength'] && !todo.errors?.['firstLetter']"
+      [errorMessage]="'Nie moze byc min 4 znakow'"
+    ></app-alert>
+    <app-alert
+      *ngIf="todo.errors?.['maxlength']"
+      [errorMessage]="'Nie moze byc max 50 '"
+    ></app-alert>
+    <app-alert
+      *ngIf="todo.errors?.['firstLetter']"
+      [errorMessage]="'Pierwszy znak musi byc litera '"
+    ></app-alert>
+  </ng-container>
+  <button type="submit" class="btn btn-primary mt-3" [disabled]="!form.valid">
+    Dodaj zadanie
+  </button>
+</form>

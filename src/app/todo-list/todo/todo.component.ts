@@ -20,9 +20,7 @@ export class TodoComponent implements OnChanges {
   @Output() changeStatus = new EventEmitter<number>();
   openModal = false;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
   changeTodoStatus() {
     this.changeStatus.emit(this.i);
   }

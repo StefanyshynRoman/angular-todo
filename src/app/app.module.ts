@@ -12,6 +12,8 @@ import { ModalComponent } from './shared/component/modal/modal.component';
 import localePl from '@angular/common/locales/pl';
 import { registerLocaleData } from '@angular/common';
 import { FirstLetterUppercasePipe } from './shared/pipes/first-letter-uppercase.pipe';
+import { FormsModule } from '@angular/forms';
+import { FirstLetterDirective } from './shared/derectives/first-letter.directive';
 
 registerLocaleData(localePl);
 @NgModule({
@@ -25,8 +27,9 @@ registerLocaleData(localePl);
     TodoComponent,
     ModalComponent,
     FirstLetterUppercasePipe,
+    FirstLetterDirective,
   ],
-  imports: [BrowserModule],
+  imports: [BrowserModule, FormsModule],
   providers: [{ provide: LOCALE_ID, useValue: 'pl' }],
   bootstrap: [AppComponent],
 })
