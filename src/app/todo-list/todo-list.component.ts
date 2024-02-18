@@ -9,9 +9,6 @@ import { Todo } from '../shared/interface/todo.interface';
 export class TodoListComponent {
   totdos: Todo[] = [];
   errorMessage = '';
-  changeTodoStatus(todo: Todo) {
-    todo.isComplete = !todo.isComplete;
-  }
 
   addTodo(todo: string): void {
     if (todo.length <= 3) {
@@ -24,5 +21,14 @@ export class TodoListComponent {
 
   clearErrorMessage() {
     this.errorMessage = '';
+  }
+  deleteTodo(i: number) {
+    this.totdos = this.totdos.filter((todo, index) => index !== i);
+  }
+  changeTodoStatus(index: number) {
+    this.totdos[index] = {
+      ...this.totdos[index],
+      isComplete: !this.totdos[index].isComplete,
+    };
   }
 }

@@ -1,45 +1,21 @@
-<p class="at-4">Dodaj nove zadanie</p>
-<input type="text" #name class="form-control" name="todo" />
-
-<button
-  type="button"
-  class="btn btn-primary mt-3"
-  (click)="addTodo(name.value)"
->
-  Dodaj zadanie
-</button>
-
-<div
-  class="alert alert-warning alert-dismissible fade show mt-2"
-  role="alert"
+<app-add-todo-form (addTodo)="addTodo($event)"></app-add-todo-form>
+<app-alert
   *ngIf="errorMessage"
->
-  {{ errorMessage }}
-  <button
-    type="button"
-    class="btn-close"
-    data-bs-dismiss="alert"
-    aria-label="close"
-    (click)="clearErrorMessage()"
-  ></button>
-</div>
+  [errorMessage]="errorMessage"
+  (clearMessage)="clearErrorMessage()"
+></app-alert>
 
 <div class="mt-5">
   <h4>Zadania</h4>
   <ul class="list-group todos-list" *ngIf="totdos.length > 0">
-    <li class="list-group-item" *ngFor="let todo of totdos; index as i">
-      <input
-        type="checkbox"
-        class="form-check-input my-1"
-        [checked]="todo.isComplete"
-        (change)="changeTodoStatus(todo)"
-      />
-      <span
-        class="todo-item"
-        [ngClass]="{ 'text-decoration-line-through': todo.isComplete }"
-        >{{ i + 1 }}. {{ todo.name }}</span
-      >
-    </li>
+    <ng-container *ngFor="let todo of totdos; index as i">
+      <app-todo
+        [todo]="todo"
+        [i]="i"
+        (delete)="deleteTodo(i)"
+        (changeStatus)="changeTodoStatus($event)"
+      ></app-todo>
+    </ng-container>
   </ul>
 
   <h5 *ngIf="totdos.length === 0">Actualnie brak zadan</h5>

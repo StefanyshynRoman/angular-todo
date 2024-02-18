@@ -1,0 +1,10 @@
+<p class="at-4">Dodaj nove zadanie</p>
+<input type="text" #name class="form-control" name="todo" />
+
+<button
+  type="button"
+  class="btn btn-primary mt-3"
+  (click)="addNewTodo(name.value)"
+>
+  Dodaj zadanie
+</button>
