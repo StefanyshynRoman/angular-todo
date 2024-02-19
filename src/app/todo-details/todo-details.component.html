@@ -1,1 +1,15 @@
-<p>todo-details works!</p>
+<div class="mt-3">
+  <p *ngIf="!todo">Nie ma zadania o podobnym numerze indeksu</p>
+  <div *ngIf="todo">
+    <p>Tresc zadania :{{ todo.name }}</p>
+    <p>Czy zadania zostalo ukonczone: {{ todo.isComplete ? "tak" : "mie" }}</p>
+
+    <p>Przejdz do kolejnego zadania lub wroc do poprzedniej strony:</p>
+    <button class="btn btn-sm btn-info mx-2" (click)="navigateBack()">
+      Powrot
+    </button>
+    <button class="btn btn-sm btn-info" (click)="navigateToNextTodo()">
+      Nastepne zadanie
+    </button>
+  </div>
+</div>

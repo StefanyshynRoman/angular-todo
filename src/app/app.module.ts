@@ -18,6 +18,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { TodoDetailsComponent } from './todo-details/todo-details.component';
+import { ChildAComponent } from './todo-list/child-a/child-a.component';
+import { ChildBComponent } from './todo-list/child-b/child-b.component';
 
 registerLocaleData(localePl);
 @NgModule({
@@ -35,6 +37,8 @@ registerLocaleData(localePl);
     HomeComponent,
     PageNotFoundComponent,
     TodoDetailsComponent,
+    ChildAComponent,
+    ChildBComponent,
   ],
   imports: [BrowserModule, FormsModule, AppRoutingModule],
   providers: [{ provide: LOCALE_ID, useValue: 'pl' }],

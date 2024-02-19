@@ -21,3 +21,11 @@
   <h5 *ngIf="todos.length === 0">Actualnie brak zadan</h5>
   <!-- <ng-template #noTask>Actualnie brak zadan</ng-template> -->
 </div>
+<div class="mt-5">
+  <h4>Child Routes:</h4>
+  <ul>
+    <li><a routerLink="/todo/child-a"> Child-A</a></li>
+    <li><a routerLink="/todo/child-b"> Child-b</a></li>
+  </ul>
+  <router-outlet></router-outlet>
+</div>

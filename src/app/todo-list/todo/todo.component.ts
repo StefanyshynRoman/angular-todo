@@ -6,7 +6,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Todo } from 'src/app/shared/interface/todo.interface';
 
 @Component({
@@ -21,7 +21,7 @@ export class TodoComponent implements OnChanges {
   @Output() changeStatus = new EventEmitter<number>();
   openModal = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnChanges(changes: SimpleChanges): void {}
   changeTodoStatus() {
@@ -34,6 +34,10 @@ export class TodoComponent implements OnChanges {
     this.delete.emit();
   }
   navigateToDetails() {
-    this.router.navigate(['/todo', this.i]);
+    const navigationExtras: NavigationExtras = {
+      relativeTo: this.route,
+      // queryParams: { id: this.i, test: 'wartosc' },
+    };
+    this.router.navigate([this.i], navigationExtras);
   }
 }
