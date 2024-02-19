@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Todo } from '../shared/interface/todo.interface';
 import { TodoService } from '../core/services/todo.service';
 import { Subscription } from 'rxjs';
+import { TodoApiService } from '../core/services/todo-api.service';
 
 @Component({
   selector: 'app-todo-list',
@@ -13,11 +14,22 @@ export class TodoListComponent implements OnInit, OnDestroy {
   errorMessage = '';
   sub!: Subscription;
 
-  constructor(private todoService: TodoService) {}
+  constructor(
+    private todoService: TodoService,
+    private todoApiService: TodoApiService
+  ) {}
   ngOnInit(): void {
     this.sub = this.todoService.todoChanged.subscribe({
       next: (arrTodos) => (this.todos = arrTodos),
     });
+
+    if (this.todos.length === 0) {
+      this.todoApiService.getTodos().subscribe({
+        error: (err) => {
+          this.errorMessage = 'Wystopil blad. Sprobuj ponownie';
+        },
+      });
+    }
   }
 
   addTodo(todo: string) {
