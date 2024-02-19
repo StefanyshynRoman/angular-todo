@@ -29,7 +29,7 @@
 <app-modal
   *ngIf="openModal"
   (close)="toggleModal()"
-  [title]="'Czy na pewno chcesz usunac Zadania o numerze ' + (i + 1) + '?'"
+  [title]="'Czy na pewno chcesz usunac zadania o id ' + id + '?'"
 >
   <div class="d-flex justify-content-end" #modalDiv>
     <!-- <input type="checkbox" #check (change)="(0)" /> -->

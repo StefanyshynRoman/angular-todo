@@ -12,8 +12,9 @@
       <app-todo
         [todo]="todo"
         [i]="i"
-        (delete)="deleteTodo(i)"
-        (changeStatus)="changeTodoStatus($event)"
+        [id]="todo.id"
+        (delete)="deleteTodo(todo.id)"
+        (changeStatus)="changeTodoStatus($event, todo)"
       ></app-todo>
     </ng-container>
   </ul>

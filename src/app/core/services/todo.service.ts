@@ -20,30 +20,22 @@ export class TodoService {
     this._todos = [...arrTodos];
     this.todoChanged.next(this.todos);
   }
-  getTodo(index: number): Todo | undefined {
-    return this.todos[index];
-  }
 
-  addTodo(name: string): void {
-    //this._todos.push({ name, isComplete: false });
-    this.saveToLocalStorage();
+  addTodo(todo: Todo): void {
+    this._todos.push(todo);
 
     this.todoChanged.next(this.todos);
   }
-  saveToLocalStorage() {
-    localStorage.setItem('todos', JSON.stringify(this.todos));
-  }
-  deleteTodo(i: number) {
-    this._todos = this.todos.filter((todo, index) => index !== i);
-    this.saveToLocalStorage();
+
+  deleteTodo(id: number) {
+    this._todos = this.todos.filter((todo, index) => todo.id !== id);
     this.todoChanged.next(this.todos);
   }
-  changeTodoStatus(index: number) {
-    this._todos[index] = {
-      ...this.todos[index],
-      isComplete: !this.todos[index].isComplete,
-    };
-    this.saveToLocalStorage();
+  changeTodoStatus(id: number, isComplete: boolean) {
+    const searchedTodo = this.todos.find((todo) => todo.id === id);
+    if (searchedTodo) {
+      searchedTodo.isComplete = isComplete;
+    }
     this.todoChanged.next(this.todos);
   }
 }

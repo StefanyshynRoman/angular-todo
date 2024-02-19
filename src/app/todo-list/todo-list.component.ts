@@ -33,21 +33,32 @@ export class TodoListComponent implements OnInit, OnDestroy {
   }
 
   addTodo(todo: string) {
-    if (todo.length <= 3) {
-      this.errorMessage = 'Zadanie powinno miec co najmniej 4 znaki! ';
-      return;
-    }
-    this.todoService.addTodo(todo);
+    this.todoApiService.postTodo({ name: todo, isComplete: false }).subscribe({
+      error: (err) => {
+        this.errorMessage = 'Wystopil blad. Sprobuj ponownie';
+      },
+    });
   }
 
   clearErrorMessage() {
     this.errorMessage = '';
   }
-  deleteTodo(i: number) {
-    this.todoService.deleteTodo(i);
+  deleteTodo(id: number) {
+    this.todoApiService.deleteTodo(id).subscribe({
+      error: (err) => {
+        this.errorMessage = 'Wystopil blad. Sprobuj ponownie';
+      },
+    });
   }
-  changeTodoStatus(index: number) {
-    this.todoService.changeTodoStatus(index);
+
+  changeTodoStatus(id: number, todo: Todo) {
+    this.todoApiService
+      .pathcTodo(id, { isComplete: !todo.isComplete })
+      .subscribe({
+        error: (err) => {
+          this.errorMessage = 'Wystopil blad. Sprobuj ponownie';
+        },
+      });
   }
   ngOnDestroy(): void {
     this.sub.unsubscribe;

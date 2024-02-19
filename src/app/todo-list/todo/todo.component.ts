@@ -16,6 +16,7 @@ import { Todo } from 'src/app/shared/interface/todo.interface';
 })
 export class TodoComponent implements OnChanges {
   @Input() todo!: Todo;
+  @Input() id!: number;
   @Input() i!: number;
   @Output() delete = new EventEmitter<void>();
   @Output() changeStatus = new EventEmitter<number>();
@@ -25,7 +26,7 @@ export class TodoComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {}
   changeTodoStatus() {
-    this.changeStatus.emit(this.i);
+    this.changeStatus.emit(this.id);
   }
   toggleModal() {
     this.openModal = !this.openModal;
@@ -38,6 +39,6 @@ export class TodoComponent implements OnChanges {
       relativeTo: this.route,
       // queryParams: { id: this.i, test: 'wartosc' },
     };
-    this.router.navigate([this.i], navigationExtras);
+    this.router.navigate([this.id], navigationExtras);
   }
 }
