@@ -10,7 +10,8 @@ import { TodoApiService } from '../core/services/todo-api.service';
   styleUrls: ['./todo-list.component.css'],
 })
 export class TodoListComponent implements OnInit, OnDestroy {
-  todos: Todo[] = this.todoService.todos;
+  //todos: Todo[] = this.todoService.todos;
+  todos: Todo[] = [];
   errorMessage = '';
   sub!: Subscription;
 
@@ -19,46 +20,45 @@ export class TodoListComponent implements OnInit, OnDestroy {
     private todoApiService: TodoApiService
   ) {}
   ngOnInit(): void {
-    this.sub = this.todoService.todoChanged.subscribe({
-      next: (arrTodos) => (this.todos = arrTodos),
-    });
-
-    if (this.todos.length === 0) {
-      this.todoApiService.getTodos().subscribe({
-        error: (err) => {
-          this.errorMessage = 'Wystopil blad. Sprobuj ponownie';
-        },
-      });
-    }
+    // this.sub = this.todoService.todoChanged.subscribe({
+    //   next: (arrTodos) => (this.todos = arrTodos),
+    // });
+    // if (this.todos.length === 0) {
+    //   this.todoApiService.getTodos().subscribe({
+    //     error: (err) => {
+    //       this.errorMessage = 'Wystopil blad. Sprobuj ponownie';
+    //     },
+    //   });
+    // }
   }
 
   addTodo(todo: string) {
-    this.todoApiService.postTodo({ name: todo, isComplete: false }).subscribe({
-      error: (err) => {
-        this.errorMessage = 'Wystopil blad. Sprobuj ponownie';
-      },
-    });
+    // this.todoApiService.postTodo({ name: todo, isComplete: false }).subscribe({
+    //   error: (err) => {
+    //     this.errorMessage = 'Wystopil blad. Sprobuj ponownie';
+    //   },
+    // });
   }
 
   clearErrorMessage() {
     this.errorMessage = '';
   }
   deleteTodo(id: number) {
-    this.todoApiService.deleteTodo(id).subscribe({
-      error: (err) => {
-        this.errorMessage = 'Wystopil blad. Sprobuj ponownie';
-      },
-    });
+    // this.todoApiService.deleteTodo(id).subscribe({
+    //   error: (err) => {
+    //     this.errorMessage = 'Wystopil blad. Sprobuj ponownie';
+    //   },
+    // });
   }
 
   changeTodoStatus(id: number, todo: Todo) {
-    this.todoApiService
-      .pathcTodo(id, { isComplete: !todo.isComplete })
-      .subscribe({
-        error: (err) => {
-          this.errorMessage = 'Wystopil blad. Sprobuj ponownie';
-        },
-      });
+    // this.todoApiService
+    //   .pathcTodo(id, { isComplete: !todo.isComplete })
+    //   .subscribe({
+    //     error: (err) => {
+    //       this.errorMessage = 'Wystopil blad. Sprobuj ponownie';
+    //     },
+    //   });
   }
   ngOnDestroy(): void {
     this.sub.unsubscribe;
