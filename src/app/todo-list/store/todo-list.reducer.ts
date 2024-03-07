@@ -4,25 +4,29 @@ import * as TodoListActios from './todo-list.action';
 
 export interface TodoListState {
   todos: Todo[];
+  fetchTodosErrorMessage: string | null;
+  loading: boolean;
 }
 const initialState: TodoListState = {
   todos: [
-    {
-      id: 1,
-      isComplete: true,
-      name: 'Umyj naczynia.',
-    },
-    {
-      id: 2,
-      isComplete: true,
-      name: 'Umyj naczynia2.',
-    },
-    {
-      id: 3,
-      isComplete: false,
-      name: 'Umyj naczynia3.',
-    },
+    // {
+    //   id: 1,
+    //   isComplete: true,
+    //   name: 'Umyj naczynia.',
+    // },
+    // {
+    //   id: 2,
+    //   isComplete: true,
+    //   name: 'Umyj naczynia2.',
+    // },
+    // {
+    //   id: 3,
+    //   isComplete: false,
+    //   name: 'Umyj naczynia3.',
+    // },
   ],
+  fetchTodosErrorMessage: null,
+  loading: false,
 };
 
 const _todoListReducer = createReducer(
@@ -40,6 +44,21 @@ const _todoListReducer = createReducer(
     todos: state.todos.map((todo) =>
       todo.id === action.id ? { ...todo, isComplete: !todo.isComplete } : todo
     ),
+  })),
+  on(TodoListActios.fetchTodosSucces, (state, action) => ({
+    ...state,
+    todos: [...action.todos],
+    loading: false,
+    fetchTodosErrorMessage: null,
+  })),
+  on(TodoListActios.fetchTodos, (state, action) => ({
+    ...state,
+    loading: true,
+  })),
+  on(TodoListActios.fetchTodosFailed, (state, action) => ({
+    ...state,
+    loading: false,
+    fetchTodosErrorMessage: action.errorMessage,
   }))
 );
 

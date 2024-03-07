@@ -6,6 +6,7 @@ import { TodoApiService } from '../core/services/todo-api.service';
 import { TodoService } from '../core/services/todo.service';
 import { Todo } from '../shared/interface/todo.interface';
 import * as TodoListActios from './store/todo-list.action';
+import { selectTodoListTodos } from './store/todo-list.selector';
 
 @Component({
   selector: 'app-todo-list',
@@ -27,16 +28,16 @@ export class TodoListComponent implements OnInit, OnDestroy {
     // this.sub = this.todoService.todoChanged.subscribe({
     //   next: (arrTodos) => (this.todos = arrTodos),
     // });
-    // if (this.todos.length === 0) {
-    //   this.todoApiService.getTodos().subscribe({
-    //     error: (err) => {
-    //       this.errorMessage = 'Wystopil blad. Sprobuj ponownie';
-    //     },
-    //   });
-    // }
-    this.store.select('todos').subscribe({
-      next: ({ todos }) => {
-        console.log(todos);
+    if (this.todos.length === 0) {
+      this.todoApiService.getTodos().subscribe({
+        error: (err) => {
+          this.errorMessage = 'Wystopil blad. Sprobuj ponownie';
+        },
+      });
+    }
+    this.sub = this.store.select(selectTodoListTodos).subscribe({
+      next: (todos) => {
+        console.log('wszyski zadania', todos);
         this.todos = [...todos];
       },
     });
