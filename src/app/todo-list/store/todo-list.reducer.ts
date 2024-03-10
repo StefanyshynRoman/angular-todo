@@ -6,6 +6,7 @@ export interface TodoListState {
   todos: Todo[];
   fetchTodosErrorMessage: string | null;
   loading: boolean;
+  addTodoErrorMessage: string | null;
 }
 const initialState: TodoListState = {
   todos: [
@@ -27,14 +28,15 @@ const initialState: TodoListState = {
   ],
   fetchTodosErrorMessage: null,
   loading: false,
+  addTodoErrorMessage: null,
 };
 
 const _todoListReducer = createReducer(
   initialState,
-  on(TodoListActios.addTodo, (state, action) => ({
-    ...state,
-    todos: state.todos.concat({ ...action.todo }),
-  })),
+  // on(TodoListActios.addTodo, (state, action) => ({
+  //   ...state,
+  //   todos: state.todos.concat({ ...action.todo }),
+  // })),
   on(TodoListActios.deleteTodo, (state, action) => ({
     ...state,
     todos: state.todos.filter((todo) => todo.id !== action.id),
@@ -59,6 +61,21 @@ const _todoListReducer = createReducer(
     ...state,
     loading: false,
     fetchTodosErrorMessage: action.errorMessage,
+  })),
+  on(TodoListActios.addTodoSucces, (state, action) => ({
+    ...state,
+    todos: state.todos.concat({ ...action.todo }),
+    loading: false,
+    addTodoErrorMessage: null,
+  })),
+  on(TodoListActios.addTodo, (state, action) => ({
+    ...state,
+    loading: true,
+  })),
+  on(TodoListActios.addTodoFailed, (state, action) => ({
+    ...state,
+    loading: false,
+    addTodoErrorMessage: action.errorMessage,
   }))
 );
 

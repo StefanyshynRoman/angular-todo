@@ -8,6 +8,14 @@ export const selectTodoListTodos = createSelector(
   selectTodoList,
   (state: TodoListState) => state.todos
 );
+export const selectTodoListTodosState = createSelector(
+  selectTodoList,
+  (state: TodoListState) => ({
+    todos: state.todos,
+    erorrMsg: state.fetchTodosErrorMessage,
+    loading: state.loading,
+  })
+);
 export const selectTodoListActiveTodos = createSelector(
   selectTodoList,
   (state: TodoListState) => state.todos.filter((todo) => !todo.isComplete)

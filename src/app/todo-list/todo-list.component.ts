@@ -6,7 +6,10 @@ import { TodoApiService } from '../core/services/todo-api.service';
 import { TodoService } from '../core/services/todo.service';
 import { Todo } from '../shared/interface/todo.interface';
 import * as TodoListActios from './store/todo-list.action';
-import { selectTodoListTodos } from './store/todo-list.selector';
+import {
+  selectTodoListTodos,
+  selectTodoListTodosState,
+} from './store/todo-list.selector';
 
 @Component({
   selector: 'app-todo-list',
@@ -16,7 +19,7 @@ import { selectTodoListTodos } from './store/todo-list.selector';
 export class TodoListComponent implements OnInit, OnDestroy {
   //todos: Todo[] = this.todoService.todos;
   todos: Todo[] = [];
-  errorMessage = '';
+  errorMessage: null | string = null;
   sub!: Subscription;
 
   constructor(
@@ -28,17 +31,19 @@ export class TodoListComponent implements OnInit, OnDestroy {
     // this.sub = this.todoService.todoChanged.subscribe({
     //   next: (arrTodos) => (this.todos = arrTodos),
     // });
-    if (this.todos.length === 0) {
-      this.todoApiService.getTodos().subscribe({
-        error: (err) => {
-          this.errorMessage = 'Wystopil blad. Sprobuj ponownie';
-        },
-      });
-    }
-    this.sub = this.store.select(selectTodoListTodos).subscribe({
-      next: (todos) => {
-        console.log('wszyski zadania', todos);
+    // if (this.todos.length === 0) {
+    //   this.todoApiService.getTodos().subscribe({
+    //     error: (err) => {
+    //       this.errorMessage = 'Wystopil blad. Sprobuj ponownie';
+    //     },
+    //   });
+    // }
+    this.store.dispatch(TodoListActios.fetchTodos());
+    this.sub = this.store.select(selectTodoListTodosState).subscribe({
+      next: ({ todos, loading, erorrMsg }) => {
+        console.log('TTest:', todos, loading, erorrMsg);
         this.todos = [...todos];
+        this.errorMessage = erorrMsg;
       },
     });
   }
@@ -51,7 +56,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
     // });
     const id = this.todos[this.todos.length - 1].id + 1;
     this.store.dispatch(
-      TodoListActios.addTodo({ todo: { id, name: todo, isComplete: false } })
+      TodoListActios.addTodo({ todo: { name: todo, isComplete: false } })
     );
   }
 
